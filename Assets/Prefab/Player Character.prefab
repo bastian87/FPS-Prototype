@@ -125,7 +125,7 @@ GameObject:
   m_Layer: 8
   m_Name: Player Character
   m_TagString: Player
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1da099bac2763704ea20a1625757566c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 15
+  playerSpeed: 13
   gravity: -29.43
   groundCheck: {fileID: 1895701151}
   groundDistance: 0.4
