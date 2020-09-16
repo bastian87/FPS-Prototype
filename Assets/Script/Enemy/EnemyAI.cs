@@ -3,19 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Jobs;
 
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] float chaseRange = 5f;
+    [SerializeField] float turnSpeed = 5f;
 
     bool isProvoked;
-    
+    Animator anim;
     NavMeshAgent navMeshAgent;
     float distanceToTarget = Mathf.Infinity;
     void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
+        anim = GetComponent<Animator>();
     }
     
     void Update()
@@ -41,24 +44,36 @@ public class EnemyAI : MonoBehaviour
 
     private void EngageTarget()
     {
-        if(distanceToTarget >= navMeshAgent.stoppingDistance)
+        FaceTarget();
+        if (distanceToTarget >= navMeshAgent.stoppingDistance)
         {
+            
             ChaseTarget();
         }
 
         if(distanceToTarget <= navMeshAgent.stoppingDistance)
         {
+            
             AttackTarget();
+            
         }
     }
 
     private void ChaseTarget()
     {
+        anim.SetBool("isAttack", false);
+        anim.SetTrigger("Move");
         navMeshAgent.SetDestination(target.position);
     }
-
     private void AttackTarget()
+    {        
+        anim.SetBool("isAttack", true);
+    }
+
+    private void FaceTarget()
     {
-        Debug.Log("I am currently attacking you");
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0f, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * turnSpeed);
     }
 }

@@ -11,6 +11,7 @@ public class Weapon : MonoBehaviour
 
     [Header("Particles")]
     [SerializeField] ParticleSystem muzzleFlash;
+    [SerializeField] GameObject hitEffect;
 
    
 
@@ -44,8 +45,8 @@ public class Weapon : MonoBehaviour
 
         if (Physics.Raycast(fpsCamera.transform.position, fpsCamera.transform.forward, out hit, shootingRange))
         {
-            // This decrease the enemy health.
-            EnemyHealth target = hit.transform.GetComponent<EnemyHealth>();
+            CreateHitImpact(hit);
+            EnemyHealth target = hit.transform.GetComponent<EnemyHealth>(); // This decrease the enemy health.
             if (target == null)
             {
                 return;
@@ -57,4 +58,11 @@ public class Weapon : MonoBehaviour
             return;
         }
     }
+
+    private void CreateHitImpact(RaycastHit hit)
+    {
+        GameObject impact = Instantiate(hitEffect, hit.point, Quaternion.LookRotation(hit.normal));
+        Destroy(impact, 0.1f);
+    }
+
 }

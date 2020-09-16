@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] float playerSpeed = 10f;
+    [Header("Jumping")]
+    [SerializeField] float jumpHeight;
     [SerializeField] float gravity = -9.81f;
 
     CharacterController controller;
     Vector3 velocity;
-
-    [SerializeField] Transform groundCheck;
+    [Header("Ground Check")]
     [SerializeField] float groundDistance = 0.5f;
+    [SerializeField] Transform groundCheck;    
     [SerializeField] LayerMask groundMask;
     
     bool isGrounded;
 
 
-    [SerializeField] float jumpHeight;
+    
     
     void Start()
     {
@@ -55,6 +58,11 @@ public class PlayerMovement : MonoBehaviour
         // Here i apply gravity to the player.
         velocity.y += gravity * Time.deltaTime;        
         controller.Move(velocity * Time.deltaTime);        
-    }    
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(groundCheck.position, groundDistance);
+    }
 
 }
